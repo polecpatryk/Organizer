@@ -6,4 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".AddObject">
 
+    <Button
+        android:id="@+id/button_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:width="200dp"
+        android:background="@drawable/button_bg"
+        android:onClick="Click"
+        android:text="@string/button_add_task" />
+
+    <Button
+        android:id="@+id/button_add_contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110dp"
+        android:width="200dp"
+        android:background="@drawable/button_bg"
+        android:onClick="Click"
+        android:text="@string/button_add_contact" />
+
+    <Button
+        android:id="@+id/button_add_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="170dp"
+        android:width="200dp"
+        android:background="@drawable/button_bg"
+        android:onClick="Click"
+        android:text="@string/button_add_note" />
 </RelativeLayout>
