@@ -22,8 +22,8 @@ public class AddObject extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.button_add_contact:
-                intent = new Intent(AddObject.this, AddContact.class);
+            case R.id.button_add_address:
+                intent = new Intent(AddObject.this, AddAddress.class);
                 startActivity(intent);
                 break;
             case R.id.button_add_note:

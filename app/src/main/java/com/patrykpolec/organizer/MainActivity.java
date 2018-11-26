@@ -1,10 +1,18 @@
 package com.patrykpolec.organizer;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,8 +24,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import java.time.Instant;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,23 +36,26 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
+    private final int MEMORY_ACCESS = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Zadania"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Kontakty"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Notatnik"));
+        mTabLayout = findViewById(R.id.tab_layout);
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.tab_task));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.tab_address));
+        mTabLayout.addTab(mTabLayout.newTab().setText(R.string.tab_note));
+        mTabLayout.addTab(mTabLayout.newTab().setText("Kalendarz"));
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager = findViewById(R.id.view_pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
@@ -77,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton add_object = (FloatingActionButton) findViewById(R.id.add_object);
+        FloatingActionButton add_object = findViewById(R.id.add_object);
         add_object.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkIfAlreadyHavePermission()) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, MEMORY_ACCESS);
+            }
+        }
     }
 
     @Override
@@ -102,6 +122,30 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MEMORY_ACCESS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                } else {
+                    //Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private boolean checkIfAlreadyHavePermission() {
+        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static class PlaceholderFragment extends Fragment {
@@ -144,6 +188,9 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return PlaceholderFragment.newInstance(R.layout.fragment_tab3, position + 1);
 
+                case 3:
+                    return PlaceholderFragment.newInstance(R.layout.fragment_tab4, position + 1);
+
                 default:
                     return PlaceholderFragment.newInstance(R.layout.fragment_tab1, position + 1);
             }
@@ -151,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
     }
 }

@@ -19,7 +19,7 @@
         android:text="@string/button_add_task" />
 
     <Button
-        android:id="@+id/button_add_contact"
+        android:id="@+id/button_add_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -28,7 +28,7 @@
         android:width="200dp"
         android:background="@drawable/button_bg"
         android:onClick="Click"
-        android:text="@string/button_add_contact" />
+        android:text="@string/button_add_address" />
 
     <Button
         android:id="@+id/button_add_note"
