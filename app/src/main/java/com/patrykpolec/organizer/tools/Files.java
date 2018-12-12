@@ -1,12 +1,16 @@
-package com.patrykpolec.organizer;
+package com.patrykpolec.organizer.tools;
 
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 public class Files extends AppCompatActivity {
 
@@ -30,6 +34,8 @@ public class Files extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
         }
+
+        Read();
     }
 
     public boolean ExistsFile() {
@@ -46,26 +52,20 @@ public class Files extends AppCompatActivity {
             return true;
     }
 
-    public boolean CreateFile() {
+    public void CreateFile() {
         try {
             this.file.createNewFile();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-            return false;
         }
-
-        return true;
     }
 
-    public boolean CreateDir() {
+    public void CreateDir() {
         try {
             this.dir.mkdir();
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
-            return false;
         }
-
-        return true;
     }
 
     public boolean Open() {

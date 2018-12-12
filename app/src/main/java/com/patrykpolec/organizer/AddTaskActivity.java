@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.patrykpolec.organizer.tools.Files;
+
 import org.json.*;
 
-public class AddTask extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity {
 
     Bundle bundle = new Bundle();
     EditText editText1, editText2;

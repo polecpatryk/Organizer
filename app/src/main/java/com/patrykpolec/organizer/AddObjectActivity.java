@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class AddObject extends AppCompatActivity {
+public class AddObjectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,16 +18,16 @@ public class AddObject extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.button_add_task:
-                intent = new Intent(AddObject.this, AddTask.class);
+                intent = new Intent(AddObjectActivity.this, AddTaskActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.button_add_address:
-                intent = new Intent(AddObject.this, AddAddress.class);
+                intent = new Intent(AddObjectActivity.this, AddAddressActivity.class);
                 startActivity(intent);
                 break;
             case R.id.button_add_note:
-                intent = new Intent(AddObject.this, AddNote.class);
+                intent = new Intent(AddObjectActivity.this, AddNoteActivity.class);
                 startActivity(intent);
                 break;
             default:

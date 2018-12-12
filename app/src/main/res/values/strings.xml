@@ -4,10 +4,11 @@
     <string name="tab_task">Zadania</string>
     <string name="tab_address">Adresy</string>
     <string name="tab_note">Notatki</string>
+    <string name="tab_calendar">Kalendarz</string>
     <string name="button_add_task">Nowe zadanie</string>
     <string name="button_add_address">Nowy adres</string>
     <string name="button_add_note">Nowa notatka</string>
     <string name="text_name">Nazwa</string>
-    <string name="button_save">Zapisz</string>
     <string name="text_description">Opis</string>
+    <string name="button_save">Zapisz</string>
 </resources>
