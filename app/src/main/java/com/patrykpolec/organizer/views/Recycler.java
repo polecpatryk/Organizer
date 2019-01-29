@@ -3,31 +3,33 @@ package com.patrykpolec.organizer.views;
 import android.content.Context;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.patrykpolec.organizer.R;
-import com.patrykpolec.organizer.Task;
+import com.patrykpolec.organizer.data.Tasks;
 
-import java.util.ArrayList;
 
 public class Recycler {
 
     public RecyclerView recyclerView;
-    public ArrayList<Task> data;
+    public Tasks tasks;
 
     public TextView name;
     public TextView description;
 
     private Adapter adapter;
 
-    public Recycler(View view, Context context, ArrayList<Task> data) {
+    private Context context;
 
-        this.data = new ArrayList<>(data);
+    public Recycler(View view, Context context, Tasks tasks) {
+        this.context = context;
+        this.tasks = tasks;
         adapter = new Adapter();
         recyclerView = (RecyclerView) view;
         recyclerView.setHasFixedSize(true);
@@ -36,9 +38,9 @@ public class Recycler {
         recyclerView.setAdapter(adapter);
     }
 
-    public void Update(ArrayList<Task> tasks)
+    public void Update()
     {
-        this.data = tasks;
+        tasks.Load();
         adapter.notifyDataSetChanged();
     }
 
@@ -55,10 +57,22 @@ public class Recycler {
 
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    int positionToDelete = recyclerView.getChildAdapterPosition(v);
-                    data.remove(positionToDelete);
-                    notifyItemRemoved(positionToDelete);
+                public void onClick(final View v) {
+                    final Integer id = recyclerView.getChildAdapterPosition(v);
+
+                    //data.remove(positionToDelete);
+                    //notifyItemRemoved(positionToDelete);
+
+                    ContextMenu contextMenu = new ContextMenu(v, context);
+                    contextMenu.menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            tasks.Remove(id);
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        }
+                    });
+
+                    contextMenu.Create();
                 }
             });
 
@@ -67,13 +81,13 @@ public class Recycler {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int i) {
-            name.setText(data.get(i).name);
-            description.setText(data.get(i).description);
+            name.setText(tasks.data.get(i).name);
+            description.setText(tasks.data.get(i).description);
         }
 
         @Override
         public int getItemCount() {
-            return data.size();
+            return tasks.data.size();
         }
     }
 

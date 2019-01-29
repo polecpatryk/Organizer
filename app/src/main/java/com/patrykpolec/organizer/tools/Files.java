@@ -76,6 +76,7 @@ public class Files extends AppCompatActivity {
         try {
             String line = "";
             BufferedReader reader = new BufferedReader(new FileReader(this.path));
+            data = "";
             while ((line = reader.readLine()) != null) this.data += line;
             reader.close();
         } catch (Exception e) {

@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.patrykpolec.organizer.R;
-import com.patrykpolec.organizer.Task;
+import com.patrykpolec.organizer.data.Tasks;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,14 +25,14 @@ public class Tables {
     static private int count;
 
     static private ArrayList<ArrayList<Integer>> fragmentTab;
-    static private ArrayList<Task> data;
+    static private Tasks tasks;
 
     static public Recycler recycler;
 
-    public Tables(View layout, @Nullable ArrayList<Task> data) {
+    public Tables(View layout, Tasks tasks) {
         this.tabLayout = (TabLayout) layout;
         this.fragmentTab = new ArrayList();
-        this.data = new ArrayList(data);
+        this.tasks = tasks;
     }
 
     public void Add(int name, final int fragment, int type) {
@@ -83,9 +82,10 @@ public class Tables {
         });
     }
 
-    public void UpdateRecycler(ArrayList<Task> tasks) {
-        recycler.Update(tasks);
+    public void Update() {
+        recycler.Update();
     }
+
     public class Adapter extends FragmentPagerAdapter {
 
         public Adapter(FragmentManager fm) {
@@ -104,7 +104,6 @@ public class Tables {
         public int getCount() {
             return count;
         }
-
     }
 
     public static class PlaceholderFragment extends Fragment {
@@ -134,7 +133,7 @@ public class Tables {
 
             for (int i = 0; i < fragmentTab.size(); ++i) {
                 if (fragmentTab.get(i).get(0) == fragmentID && fragmentTab.get(i).get(1) == 1) {
-                    recycler = new Recycler(view.findViewById(R.id.view_recycler), getContext(), data);
+                    recycler = new Recycler(view.findViewById(R.id.view_recycler), getContext(), tasks);
                 }
             }
         }

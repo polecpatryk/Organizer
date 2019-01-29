@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Organizer</string>
     <string name="action_settings">Ustawienia</string>
+    <string name="menu_context_edit">Edytuj</string>
+    <string name="menu_context_delete">Usuń</string>
     <string name="tab_task">Zadania</string>
     <string name="tab_address">Adresy</string>
     <string name="tab_note">Notatki</string>

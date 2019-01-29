@@ -5,27 +5,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.patrykpolec.organizer.data.Tasks;
 import com.patrykpolec.organizer.permissions.Permission;
-import com.patrykpolec.organizer.tools.Files;
 import com.patrykpolec.organizer.views.Tables;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
 
     private final int MEMORY_ACCESS = 1;
 
     private Tables tables;
+    private Tasks tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +30,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        tables = new Tables(findViewById(R.id.tab_layout), LoadTasks());
+        tasks = new Tasks(getExternalFilesDir("").toString(), "tasks.json");
+        tasks.Load();
+
+        tables = new Tables(findViewById(R.id.tab_layout), tasks);
         tables.Add(R.string.tab_task, R.layout.fragment_tab1, 1);
         tables.Add(R.string.tab_address, R.layout.fragment_tab2, 0);
         tables.Add(R.string.tab_note, R.layout.fragment_tab3, 0);
@@ -58,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRestart() {
         super.onRestart();
 
-        tables.UpdateRecycler(LoadTasks());
+        tables.Update();
     }
 
     @Override
@@ -76,32 +72,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private ArrayList<Task> LoadTasks()
-    {
-        Files file = new Files(getExternalFilesDir("").toString(), "tasks.json");
-        JSONArray jTasksList = null;
-
-        try {
-            if (file.GetData().equals("")) jTasksList = new JSONArray();
-            else jTasksList = new JSONArray(file.GetData());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<Task> tasksList = new ArrayList<>();
-        JSONObject jTask;
-
-        for(int i = 0; i < jTasksList.length(); ++i) {
-            try {
-                jTask = jTasksList.getJSONObject(i);
-                tasksList.add(new Task(i, jTask.getString("name"), jTask.getString("description")));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return tasksList;
     }
 }

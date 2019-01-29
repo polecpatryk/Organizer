@@ -12,8 +12,9 @@ import org.json.*;
 
 public class AddTaskActivity extends AppCompatActivity {
 
-    Bundle bundle = new Bundle();
-    EditText editText1, editText2;
+    private Bundle bundle = new Bundle();
+    private EditText editText1, editText2;
+    public static Boolean state = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,9 @@ public class AddTaskActivity extends AppCompatActivity {
 
         } catch (JSONException e) {
             Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+
         } finally {
+            state = true;
             finish();
         }
     }

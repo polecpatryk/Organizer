@@ -26,12 +26,24 @@ public class AddObjectActivity extends AppCompatActivity {
                 intent = new Intent(AddObjectActivity.this, AddAddressActivity.class);
                 startActivity(intent);
                 break;
+
             case R.id.button_add_note:
                 intent = new Intent(AddObjectActivity.this, AddNoteActivity.class);
                 startActivity(intent);
                 break;
+
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        if(AddTaskActivity.state == true) {
+            AddTaskActivity.state = false;
+            finish();
         }
     }
 }
