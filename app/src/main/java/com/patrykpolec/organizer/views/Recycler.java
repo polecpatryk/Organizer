@@ -41,6 +41,8 @@ public class Recycler {
     public void Update()
     {
         tasks.Load();
+        recyclerView.removeAllViews();
+        recyclerView.invalidate();
         adapter.notifyDataSetChanged();
     }
 
@@ -67,7 +69,7 @@ public class Recycler {
                     contextMenu.menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         public boolean onMenuItemClick(MenuItem item) {
                             tasks.Remove(id);
-                            adapter.notifyDataSetChanged();
+                            Update();
                             return true;
                         }
                     });
